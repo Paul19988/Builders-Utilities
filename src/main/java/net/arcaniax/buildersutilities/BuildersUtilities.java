@@ -71,10 +71,15 @@ public final class BuildersUtilities extends JavaPlugin {
         instance = this;
 
         this.settings = new Settings(new CustomConfig(this, "config.yml"));
-        this.noClipManager = new NoClipManager();
+
+        this.noClipManager = new NoClipManager(this);
+        this.noClipManager.start();
+
         this.nmsManager = new NmsManager();
+
         this.inventoryManager = new InventoryManager(this);
         this.inventoryManager.init();
+
         BannerUtil.addColors();
         BannerUtil.addPatterns();
 
@@ -101,8 +106,10 @@ public final class BuildersUtilities extends JavaPlugin {
 
         CommandExecutor commandExecutor = new CommandExecutor() {
             @Override
-            public boolean onCommand(CommandSender commandSender, Command command, String s,
-                                     String[] strings) {
+            public boolean onCommand(
+                    CommandSender commandSender, Command command, String s,
+                    String[] strings
+            ) {
                 String[] commandArgs = new String[strings.length + 1];
                 commandArgs[0] = s;
                 System.arraycopy(strings, 0, commandArgs, 1, strings.length);
@@ -110,7 +117,7 @@ public final class BuildersUtilities extends JavaPlugin {
                 return true;
             }
         };
-        
+
         getCommand("butil").setExecutor(commandExecutor);
         getCommand("banner").setExecutor(commandExecutor);
         getCommand("banner").setExecutor(commandExecutor);
@@ -119,8 +126,6 @@ public final class BuildersUtilities extends JavaPlugin {
         getCommand("blocks").setExecutor(commandExecutor);
         getCommand("n").setExecutor(commandExecutor);
         getCommand("nc").setExecutor(commandExecutor);
-        getCommand("/1").setExecutor(commandExecutor);
-        getCommand("/2").setExecutor(commandExecutor);
         getCommand("/cuboid").setExecutor(commandExecutor);
         getCommand("/convex").setExecutor(commandExecutor);
         getCommand("/s").setExecutor(commandExecutor);
@@ -152,4 +157,5 @@ public final class BuildersUtilities extends JavaPlugin {
     public NmsManager getNmsManager() {
         return nmsManager;
     }
+
 }
